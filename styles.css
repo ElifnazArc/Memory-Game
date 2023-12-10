@@ -1,36 +1,40 @@
+body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.score-table,
+.timer {
+    font-size: 24px;
+    margin: 10px;
+}
+
+#difficulty {
+    margin: 10px;
+}
+
 #memory-game {
-    display: grid;
-    grid-template-columns: repeat(6, 1fr);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 10px;
-    max-width: 600px;
-    margin: 20px auto;
+    margin: 20px;
 }
 
 .card {
-    width: 100%;
-    height: 100px;
-    background-color: #eee;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.5em;
-    cursor: pointer;
-    border: 2px solid #333;
     width: 100px;
+    height: 100px;
+    background-color: #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 36px;
+    font-weight: bold;
+    cursor: pointer;
 }
 
 .card.flipped {
-    background-color: #ccc; /* Change the color when flipped */
+    background-color: #fff;
 }
-
-
-/* Some basic styling for the left panel */
-#left-panel {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 150px;
-    padding: 20px;
-    background-color: #eeeeee;
-}
-
