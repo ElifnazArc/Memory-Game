@@ -1,9 +1,6 @@
-// JS PART
-
 // Shuffle function to randomize card placement
 function shuffle(array) {
-    let currentIndex = array.length,
-        randomIndex;
+    let currentIndex = array.length, randomIndex;
 
     while (currentIndex !== 0) {
         randomIndex = Math.floor(Math.random() * currentIndex);
@@ -27,28 +24,35 @@ let timer;
 let timerValue;
 let score = 0;
 
+// Function to reset the game state
+function resetGameState() {
+    flippedCards = [];
+    matchedPairs = [];
+    score = 0;
+    updateScoreDisplay();
+}
+
 // Function to initialize and start the game
 function startGame(difficulty) {
+    resetGameState();
     createTimer();
 
     let uniqueCardsCount;
     switch (difficulty) {
         case 'easy':
-            uniqueCardsCount = 9; // 9 unique cards for easy level
+            uniqueCardsCount = 8;
             break;
         case 'medium':
-            uniqueCardsCount = 13; // 13 unique cards for medium level
+            uniqueCardsCount = 18;
             break;
         case 'hard':
-            uniqueCardsCount = 18; // 18 unique cards for hard level
+            uniqueCardsCount = 32;
             break;
         default:
-            uniqueCardsCount = 9; // Default to easy level
+            uniqueCardsCount = 8;
     }
 
     const cards = Array.from({length: uniqueCardsCount}, (_, index) => String.fromCharCode(65 + index));
-
-    // Duplicate the cards to create matching pairs
     const cardPairs = shuffle([...cards, ...cards]);
 
     const memoryGame = document.getElementById('memory-game');
@@ -59,16 +63,16 @@ function startGame(difficulty) {
         card.classList.add('card');
         card.dataset.cardValue = value;
         card.addEventListener('click', flipCard);
-
         memoryGame.appendChild(card);
     });
 
-    // Start the timer when the game begins
-    startTimer(2 * 60); // 2 minutes
+    startTimer(2 * 60); // 2 minutes timer
 }
 
 // Function to start the timer
 function startTimer(duration) {
+    if (timer) clearInterval(timer);
+
     timerValue = duration;
     updateTimerDisplay();
 
@@ -79,8 +83,7 @@ function startTimer(duration) {
         if (timerValue <= 0) {
             clearInterval(timer);
             alert('Time is up! Game Over!');
-            score = 0; // Reset score
-            updateScoreDisplay(); // Update score display
+            resetGameState();
             startGame(document.getElementById('difficulty').value);
         }
     }, 1000);
@@ -89,6 +92,8 @@ function startTimer(duration) {
 // Function to update the timer display
 function updateTimerDisplay() {
     const timerDisplay = document.querySelector('.timer');
+    if (!timerDisplay) return;
+
     const minutes = Math.floor(timerValue / 60);
     const seconds = timerValue % 60;
     timerDisplay.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
@@ -122,34 +127,18 @@ function checkMatch() {
         card2.removeEventListener('click', flipCard);
         matchedPairs.push(card1.dataset.cardValue);
 
-        // Update score for a correct match
         score += 10;
         updateScoreDisplay();
 
+        const difficulty = document.getElementById('difficulty').value;
+        let requiredMatches = { 'easy': 8, 'medium': 18, 'hard': 32 }[difficulty];
 
-        const diff = document.getElementById('difficulty').value
-
-        switch (diff) {
-            case "easy":
-                if (matchedPairs.length === 9) {
-                    alert(`Congratulations! You found all the pairs! Your final score: ${score}`);
-                }
-                break;
-            case "medium":
-                if (matchedPairs.length === 13) {
-                    alert(`Congratulations! You found all the pairs! Your final score: ${score}`);
-                }
-                break;
-            case "hard":
-                if (matchedPairs.length === 18) {
-                    alert(`Congratulations! You found all the pairs! Your final score: ${score}`);
-                }
-                break
+        if (matchedPairs.length === requiredMatches) {
+            alert(`Congratulations! You found all the pairs! Your final score: ${score}`);
+            resetGameState();
+            startGame(difficulty);
         }
-
-
     } else {
-        // Deduct points for an incorrect match
         score -= 5;
         updateScoreDisplay();
 
