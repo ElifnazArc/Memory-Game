@@ -21,11 +21,12 @@ body {
     justify-content: center;
     gap: 10px;
     margin: 20px;
+    width: calc(100px * 7 + 10px * 3); /* Adjust width based on card size and gap */
 }
 
 .card {
-    width: 100px;
-    height: 100px;
+    width: 100px; /* Fixed width */
+    height: 100px; /* Fixed height to maintain square shape */
     background-color: #ccc;
     display: flex;
     justify-content: center;
@@ -33,9 +34,15 @@ body {
     font-size: 36px;
     font-weight: bold;
     cursor: pointer;
-    aspect-ratio: 1 / 1;
 }
 
 .card.flipped {
     background-color: #fff;
+}
+
+/* Media query for tablets and phones */
+@media (max-width: 768px) {
+    #memory-game {
+        width: calc(100px * 3 + 10px * 2); /* Adjusted width for smaller screens */
+    }
 }
