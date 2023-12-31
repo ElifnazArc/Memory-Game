@@ -40,16 +40,16 @@ function startGame(difficulty) {
     let uniqueCardsCount;
     switch (difficulty) {
         case 'easy':
-            uniqueCardsCount = 8;
+            uniqueCardsCount = 9;
             break;
         case 'medium':
-            uniqueCardsCount = 18;
+            uniqueCardsCount = 12;
             break;
         case 'hard':
-            uniqueCardsCount = 32;
+            uniqueCardsCount = 15;
             break;
         default:
-            uniqueCardsCount = 8;
+            uniqueCardsCount = 9;
     }
 
     const cards = Array.from({length: uniqueCardsCount}, (_, index) => String.fromCharCode(65 + index));
@@ -131,7 +131,7 @@ function checkMatch() {
         updateScoreDisplay();
 
         const difficulty = document.getElementById('difficulty').value;
-        let requiredMatches = { 'easy': 8, 'medium': 18, 'hard': 32 }[difficulty];
+        let requiredMatches = { 'easy': 9, 'medium': 12, 'hard': 15 }[difficulty];
 
         if (matchedPairs.length === requiredMatches) {
             alert(`Congratulations! You found all the pairs! Your final score: ${score}`);
